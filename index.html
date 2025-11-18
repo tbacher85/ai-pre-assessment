@@ -1,0 +1,1945 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Myako AI - Intelligent Pre-Assessment</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --myako-primary: #2563eb;
+            --myako-secondary: #1e40af;
+            --myako-accent: #60a5fa;
+            --myako-dark: #1e293b;
+            --myako-light: #f8fafc;
+            --myako-success: #10b981;
+            --myako-warning: #f59e0b;
+            --myako-error: #ef4444;
+            --myako-gradient: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+        }
+
+        body {
+            background: var(--myako-light);
+            color: var(--myako-dark);
+            line-height: 1.6;
+        }
+
+        .demo-banner {
+            background: var(--myako-gradient);
+            color: white;
+            text-align: center;
+            padding: 8px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            margin-bottom: 30px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--myako-gradient);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 20px;
+        }
+
+        .logo-text {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--myako-dark);
+        }
+
+        .logo-text span {
+            color: var(--myako-primary);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 25px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--myako-dark);
+            font-weight: 500;
+            transition: color 0.3s;
+            cursor: pointer;
+            padding: 8px 12px;
+            border-radius: 8px;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            color: var(--myako-primary);
+            background: #f1f5f9;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 350px 1fr;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        /* Control Panel Styles */
+        .control-panel {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            padding: 25px;
+            height: fit-content;
+        }
+
+        .panel-section {
+            margin-bottom: 30px;
+        }
+
+        .panel-section h3 {
+            font-size: 16px;
+            color: var(--myako-dark);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .panel-section h3 i {
+            color: var(--myako-primary);
+        }
+
+        .kb-selector {
+            width: 100%;
+            padding: 12px 15px;
+            border-radius: 10px;
+            border: 1px solid #e2e8f0;
+            background: white;
+            color: var(--myako-dark);
+            margin-bottom: 15px;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .kb-selector:focus {
+            outline: none;
+            border-color: var(--myako-accent);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .kb-info {
+            background: #f8fafc;
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 14px;
+            margin-bottom: 15px;
+            border-left: 4px solid var(--myako-primary);
+        }
+
+        .kb-info strong {
+            display: block;
+            margin-bottom: 5px;
+            color: var(--myako-dark);
+        }
+
+        .btn {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-size: 14px;
+        }
+
+        .btn-primary {
+            background: var(--myako-gradient);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(37, 99, 235, 0.3);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: var(--myako-dark);
+            border: 1px solid #e2e8f0;
+        }
+
+        .btn-secondary:hover {
+            background: #f8fafc;
+            border-color: var(--myako-accent);
+        }
+
+        .btn-success {
+            background: var(--myako-success);
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #0da271;
+            transform: translateY(-2px);
+        }
+
+        .progress-container {
+            margin: 20px 0;
+        }
+
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: var(--myako-dark);
+        }
+
+        .progress-bar {
+            height: 8px;
+            background: #e2e8f0;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--myako-gradient);
+            border-radius: 10px;
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+        .xapi-log {
+            background: #1e293b;
+            padding: 15px;
+            border-radius: 10px;
+            font-family: 'Monaco', 'Consolas', monospace;
+            font-size: 12px;
+            height: 180px;
+            overflow-y: auto;
+            color: #94a3b8;
+            line-height: 1.5;
+        }
+
+        .xapi-log .timestamp {
+            color: var(--myako-accent);
+        }
+
+        .xapi-log .verb {
+            color: var(--myako-success);
+        }
+
+        /* Chat Widget Styles */
+        .chat-container {
+            display: flex;
+            flex-direction: column;
+            height: 75vh;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+        }
+
+        .chat-header {
+            background: var(--myako-gradient);
+            color: white;
+            padding: 20px 25px;
+        }
+
+        .chat-header h2 {
+            font-size: 20px;
+            margin-bottom: 5px;
+        }
+
+        .chat-header p {
+            opacity: 0.9;
+            font-size: 14px;
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 25px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .message {
+            max-width: 80%;
+            animation: fadeIn 0.4s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .bot-message {
+            align-self: flex-start;
+        }
+
+        .user-message {
+            align-self: flex-end;
+        }
+
+        .message-bubble {
+            padding: 16px 20px;
+            border-radius: 18px;
+            line-height: 1.5;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .bot-message .message-bubble {
+            background: white;
+            border-bottom-left-radius: 5px;
+            border: 1px solid #f1f5f9;
+        }
+
+        .user-message .message-bubble {
+            background: var(--myako-primary);
+            color: white;
+            border-bottom-right-radius: 5px;
+        }
+
+        .typing-indicator {
+            display: inline-block;
+            padding: 16px 20px;
+            background: white;
+            border-radius: 18px;
+            border-bottom-left-radius: 5px;
+            border: 1px solid #f1f5f9;
+        }
+
+        .typing-dots {
+            display: flex;
+            gap: 4px;
+        }
+
+        .typing-dots span {
+            height: 8px;
+            width: 8px;
+            background: #cbd5e1;
+            border-radius: 50%;
+            display: block;
+            animation: typing 1.2s infinite;
+        }
+
+        .typing-dots span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .typing-dots span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes typing {
+            0%, 100% { transform: translateY(0); opacity: 0.5; }
+            50% { transform: translateY(-5px); opacity: 1; }
+        }
+
+        .input-area {
+            padding: 20px 25px;
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            display: flex;
+            gap: 12px;
+        }
+
+        .message-input {
+            flex: 1;
+            padding: 16px 20px;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            outline: none;
+            font-size: 15px;
+            transition: all 0.3s;
+            background: white;
+        }
+
+        .message-input:focus {
+            border-color: var(--myako-accent);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .send-btn {
+            background: var(--myako-primary);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+
+        .send-btn:hover {
+            background: var(--myako-secondary);
+            transform: translateY(-2px);
+        }
+
+        .send-btn:disabled {
+            background: #cbd5e1;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .evaluation-feedback {
+            background: #f0f9ff;
+            border-left: 4px solid var(--myako-primary);
+            padding: 15px;
+            margin-top: 12px;
+            border-radius: 0 8px 8px 0;
+            font-size: 14px;
+        }
+
+        .score {
+            font-weight: bold;
+            color: var(--myako-primary);
+        }
+
+        .concept-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .concept-tag {
+            background: #dbeafe;
+            color: var(--myako-primary);
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .results-panel {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            padding: 30px;
+            margin-top: 30px;
+            display: none;
+        }
+
+        .results-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .results-header h2 {
+            color: var(--myako-dark);
+            margin-bottom: 10px;
+        }
+
+        .score-circle {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: var(--myako-gradient);
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 28px;
+            font-weight: bold;
+            box-shadow: 0 8px 20px rgba(37, 99, 235, 0.3);
+        }
+
+        .results-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+        }
+
+        .strengths, .improvements {
+            background: #f8fafc;
+            padding: 20px;
+            border-radius: 12px;
+        }
+
+        .strengths h3, .improvements h3 {
+            color: var(--myako-dark);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .strengths h3 {
+            color: var(--myako-success);
+        }
+
+        .improvements h3 {
+            color: var(--myako-warning);
+        }
+
+        .strengths ul, .improvements ul {
+            padding-left: 20px;
+        }
+
+        .strengths li, .improvements li {
+            margin-bottom: 8px;
+        }
+
+        .xapi-preview {
+            grid-column: 1 / -1;
+            background: #1e293b;
+            color: #94a3b8;
+            padding: 20px;
+            border-radius: 12px;
+            font-family: 'Monaco', 'Consolas', monospace;
+            font-size: 13px;
+            line-height: 1.5;
+            margin-top: 15px;
+        }
+
+        .demo-footer {
+            text-align: center;
+            padding: 20px;
+            color: #64748b;
+            font-size: 14px;
+            border-top: 1px solid #e2e8f0;
+            margin-top: 40px;
+        }
+
+        /* Tab Content Styles */
+        .tab-content {
+            display: none;
+            grid-column: 1 / -1;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            padding: 30px;
+            margin-top: 20px;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .tab-content h2 {
+            color: var(--myako-dark);
+            margin-bottom: 20px;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 10px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: #f8fafc;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            border-left: 4px solid var(--myako-primary);
+        }
+
+        .stat-number {
+            font-size: 32px;
+            font-weight: bold;
+            color: var(--myako-primary);
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        .training-list, .assessment-list {
+            display: grid;
+            gap: 15px;
+        }
+
+        .training-item, .assessment-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background: #f8fafc;
+            border-radius: 10px;
+            border-left: 4px solid var(--myako-primary);
+        }
+
+        .training-info h4, .assessment-info h4 {
+            color: var(--myako-dark);
+            margin-bottom: 5px;
+        }
+
+        .training-info p, .assessment-info p {
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        .status-badge {
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .status-active {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .status-completed {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .status-upcoming {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        /* Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            width: 90%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+            transform: translateY(20px);
+            transition: transform 0.3s ease;
+        }
+
+        .modal-overlay.active .modal {
+            transform: translateY(0);
+        }
+
+        .modal-header {
+            padding: 20px 25px;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h3 {
+            color: var(--myako-dark);
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 20px;
+            color: #64748b;
+            cursor: pointer;
+            padding: 5px;
+            border-radius: 5px;
+        }
+
+        .modal-close:hover {
+            background: #f1f5f9;
+            color: var(--myako-dark);
+        }
+
+        .modal-body {
+            padding: 25px;
+        }
+
+        .modal-footer {
+            padding: 20px 25px;
+            border-top: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--myako-dark);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--myako-accent);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .checkbox-group input {
+            width: 18px;
+            height: 18px;
+        }
+
+        .checkbox-group label {
+            margin-bottom: 0;
+        }
+
+        .slider-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .slider-value {
+            min-width: 40px;
+            text-align: center;
+            font-weight: 500;
+            color: var(--myako-primary);
+        }
+
+        .slider {
+            flex: 1;
+            -webkit-appearance: none;
+            height: 6px;
+            background: #e2e8f0;
+            border-radius: 3px;
+            outline: none;
+        }
+
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 18px;
+            height: 18px;
+            background: var(--myako-primary);
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .config-preview {
+            background: #f8fafc;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            font-family: 'Monaco', 'Consolas', monospace;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        /* Animation for new elements */
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .slide-up {
+            animation: slideUp 0.5s ease;
+        }
+
+        /* Quick Reply Buttons */
+        .quick-replies {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .quick-reply {
+            background: #f1f5f9;
+            border: 1px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 6px 12px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .quick-reply:hover {
+            background: #e2e8f0;
+        }
+    </style>
+</head>
+<body>
+    <div class="demo-banner">
+        🚀 MYAKO AI DEMONSTRATION - INTELLIGENT PRE-ASSESSMENT SYSTEM
+    </div>
+
+    <div class="container">
+        <header>
+            <div class="logo">
+                <div class="logo-icon">M</div>
+                <div class="logo-text">Myako <span>AI</span></div>
+            </div>
+            <div class="nav-links">
+                <a class="active" onclick="switchTab('dashboard')">Dashboard</a>
+                <a onclick="switchTab('trainings')">Trainings</a>
+                <a onclick="switchTab('assessments')">Assessments</a>
+                <a onclick="switchTab('analytics')">Analytics</a>
+                <a onclick="switchTab('settings')">Settings</a>
+            </div>
+        </header>
+
+        <!-- Dashboard Tab -->
+        <div id="dashboard-tab" class="tab-content active">
+            <h2><i class="fas fa-tachometer-alt"></i> Dashboard Overview</h2>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">142</div>
+                    <div class="stat-label">Active Learners</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">87%</div>
+                    <div class="stat-label">Completion Rate</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">23</div>
+                    <div class="stat-label">Active Courses</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">4.7</div>
+                    <div class="stat-label">Avg. Satisfaction</div>
+                </div>
+            </div>
+            
+            <h3>Recent Activity</h3>
+            <div class="training-list">
+                <div class="training-item">
+                    <div class="training-info">
+                        <h4>Cybersecurity Fundamentals</h4>
+                        <p>15 learners completed • 2 days ago</p>
+                    </div>
+                    <span class="status-badge status-completed">Completed</span>
+                </div>
+                <div class="training-item">
+                    <div class="training-info">
+                        <h4>GDPR Compliance Training</h4>
+                        <p>28 learners in progress • 1 day ago</p>
+                    </div>
+                    <span class="status-badge status-active">Active</span>
+                </div>
+                <div class="training-item">
+                    <div class="training-info">
+                        <h4>First Aid at Work</h4>
+                        <p>Scheduled for next week • 3 days ago</p>
+                    </div>
+                    <span class="status-badge status-upcoming">Upcoming</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Trainings Tab -->
+        <div id="trainings-tab" class="tab-content">
+            <h2><i class="fas fa-graduation-cap"></i> Training Management</h2>
+            
+            <div class="training-list">
+                <div class="training-item">
+                    <div class="training-info">
+                        <h4>Cybersecurity Fundamentals</h4>
+                        <p>Essential security practices for all employees • 45 min</p>
+                    </div>
+                    <span class="status-badge status-active">Active</span>
+                </div>
+                <div class="training-item">
+                    <div class="training-info">
+                        <h4>GDPR Compliance Training</h4>
+                        <p>Data protection and privacy regulations • 60 min</p>
+                    </div>
+                    <span class="status-badge status-active">Active</span>
+                </div>
+                <div class="training-item">
+                    <div class="training-info">
+                        <h4>First Aid at Work</h4>
+                        <p>Emergency response and basic life support • 90 min</p>
+                    </div>
+                    <span class="status-badge status-upcoming">Scheduled</span>
+                </div>
+                <div class="training-item">
+                    <div class="training-info">
+                        <h4>Leadership Development</h4>
+                        <p>Management skills and team leadership • 120 min</p>
+                    </div>
+                    <span class="status-badge status-upcoming">Draft</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Assessments Tab - This is our main content -->
+        <div id="assessments-tab" class="tab-content">
+            <div class="main-content">
+                <!-- Control Panel -->
+                <div class="control-panel">
+                    <div class="panel-section">
+                        <h3><i class="fas fa-database"></i> KNOWLEDGE BASE</h3>
+                        <select class="kb-selector" id="kbSelector">
+                            <option value="cybersecurite">🔒 Cybersecurity Fundamentals</option>
+                            <option value="firstaid">🩹 First Aid at Work</option>
+                            <option value="compliance">📊 GDPR Compliance</option>
+                            <option value="leadership">👥 Leadership Development</option>
+                        </select>
+                        <div class="kb-info" id="kbInfo">
+                            <strong>Cybersecurity Fundamentals</strong>
+                            Contains 28 key concepts on information security, company policies and best practices. Updated: 06/15/2023
+                        </div>
+                        <button class="btn btn-primary" onclick="loadKnowledgeBase()">
+                            <i class="fas fa-sync-alt"></i> Load Knowledge Base
+                        </button>
+                    </div>
+
+                    <div class="panel-section">
+                        <h3><i class="fas fa-play-circle"></i> ASSESSMENT</h3>
+                        <button class="btn btn-success" id="startBtn" onclick="startEvaluation()">
+                            <i class="fas fa-rocket"></i> Start Assessment
+                        </button>
+                        <button class="btn btn-secondary" onclick="resetChat()">
+                            <i class="fas fa-redo"></i> Reset
+                        </button>
+                        
+                        <div class="progress-container" id="progressContainer" style="display: none;">
+                            <div class="progress-label">
+                                <span>Progress</span>
+                                <span id="progressText">0/5</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="progressFill"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="panel-section">
+                        <h3><i class="fas fa-chart-line"></i> xAPI ANALYTICS</h3>
+                        <div class="xapi-log" id="xapiLog">
+                            <div class="timestamp">[14:32:10]</div> 
+                            <span class="verb">Initialized</span>: Session created - User: Demo_User_01
+                            <div class="timestamp">[14:32:15]</div> 
+                            <span class="verb">Loaded</span>: Knowledge Base - Cybersecurity Fundamentals
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Chat Widget -->
+                <div class="chat-container">
+                    <div class="chat-header">
+                        <h2>Knowledge Pre-Assessment</h2>
+                        <p>Answer questions to evaluate your current knowledge level before training</p>
+                    </div>
+
+                    <div class="chat-messages" id="chatMessages">
+                        <div class="message bot-message">
+                            <div class="message-bubble">
+                                <p>Hello! I'm the Myako AI assistant. I'll ask you a few questions to assess your current knowledge of cybersecurity.</p>
+                                <p>This assessment will help us personalize your training experience. Please answer as completely as possible.</p>
+                                <div class="concept-tags">
+                                    <span class="concept-tag">Password Security</span>
+                                    <span class="concept-tag">Threat Identification</span>
+                                    <span class="concept-tag">Company Policies</span>
+                                </div>
+                                <div class="quick-replies" id="initialQuickReplies">
+                                    <div class="quick-reply" onclick="useQuickReply('Got it, I\'m ready to start.')">Got it, I'm ready to start.</div>
+                                    <div class="quick-reply" onclick="useQuickReply('Can you tell me more about how this works?')">How does this work?</div>
+                                    <div class="quick-reply" onclick="useQuickReply('What topics will be covered?')">What topics will be covered?</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="input-area">
+                        <input type="text" class="message-input" id="messageInput" placeholder="Type your answer here..." disabled>
+                        <button class="send-btn" id="sendBtn" onclick="sendMessage()" disabled>
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Results Panel -->
+            <div class="results-panel" id="resultsPanel">
+                <div class="results-header">
+                    <h2>Assessment Complete - Detailed Results</h2>
+                    <div class="score-circle" id="finalScoreCircle">0%</div>
+                    <p>Here's your knowledge profile and training recommendations</p>
+                </div>
+                
+                <div class="results-grid">
+                    <div class="strengths">
+                        <h3><i class="fas fa-check-circle"></i> Strengths</h3>
+                        <ul id="strengthsList">
+                            <!-- Will be populated by JS -->
+                        </ul>
+                    </div>
+                    
+                    <div class="improvements">
+                        <h3><i class="fas fa-exclamation-triangle"></i> Areas for Improvement</h3>
+                        <ul id="improvementsList">
+                            <!-- Will be populated by JS -->
+                        </ul>
+                    </div>
+                    
+                    <div class="xapi-preview">
+                        <div>// xAPI data sent to Myako LMS</div>
+                        <div>{</div>
+                        <div>  "actor": "Demo_User_01",</div>
+                        <div>  "verb": "completed",</div>
+                        <div>  "object": "Pre-Assessment: Cybersecurity",</div>
+                        <div>  "result": {</div>
+                        <div>    "score": {</div>
+                        <div>      "scaled": <span id="xapiScore">0.00</span>,</div>
+                        <div>      "raw": <span id="xapiRaw">0</span>,</div>
+                        <div>      "min": 0,</div>
+                        <div>      "max": 50</div>
+                        <div>    },</div>
+                        <div>    "completion": true,</div>
+                        <div>    "duration": "PT5M32S"</div>
+                        <div>  },</div>
+                        <div>  "context": {</div>
+                        <div>    "extensions": {</div>
+                        <div>      "https://myako.ai/assessment/strengths": [/* strengths */],</div>
+                        <div>      "https://myako.ai/assessment/improvements": [/* improvements */]</div>
+                        <div>    }</div>
+                        <div>  }</div>
+                        <div>}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Analytics Tab -->
+        <div id="analytics-tab" class="tab-content">
+            <h2><i class="fas fa-chart-bar"></i> Learning Analytics</h2>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">94%</div>
+                    <div class="stat-label">Assessment Completion</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">76%</div>
+                    <div class="stat-label">Avg. Pre-Assessment Score</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">89%</div>
+                    <div class="stat-label">Post-Training Improvement</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">142</div>
+                    <div class="stat-label">xAPI Statements Today</div>
+                </div>
+            </div>
+            
+            <h3>Recent Assessment Results</h3>
+            <div class="assessment-list">
+                <div class="assessment-item">
+                    <div class="assessment-info">
+                        <h4>Cybersecurity Fundamentals</h4>
+                        <p>Average score: 82% • 45 learners assessed</p>
+                    </div>
+                    <span class="status-badge status-completed">Completed</span>
+                </div>
+                <div class="assessment-item">
+                    <div class="assessment-info">
+                        <h4>GDPR Compliance</h4>
+                        <p>Average score: 71% • 28 learners assessed</p>
+                    </div>
+                    <span class="status-badge status-active">In Progress</span>
+                </div>
+                <div class="assessment-item">
+                    <div class="assessment-info">
+                        <h4>First Aid at Work</h4>
+                        <p>Average score: 68% • 15 learners assessed</p>
+                    </div>
+                    <span class="status-badge status-completed">Completed</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Settings Tab -->
+        <div id="settings-tab" class="tab-content">
+            <h2><i class="fas fa-cog"></i> System Settings</h2>
+            
+            <div class="panel-section">
+                <h3><i class="fas fa-sliders-h"></i> Assessment Settings</h3>
+                <div class="kb-info">
+                    <strong>AI Evaluation Parameters</strong>
+                    Configure how the AI evaluates responses and generates questions.
+                </div>
+                <button class="btn btn-primary" onclick="openModal('aiConfigModal')">
+                    <i class="fas fa-edit"></i> Configure AI Parameters
+                </button>
+            </div>
+            
+            <div class="panel-section">
+                <h3><i class="fas fa-database"></i> xAPI Integration</h3>
+                <div class="kb-info">
+                    <strong>LRS Connection Settings</strong>
+                    Configure your Learning Record Store endpoints and authentication.
+                </div>
+                <button class="btn btn-primary" onclick="openModal('xapiConfigModal')">
+                    <i class="fas fa-link"></i> Configure LRS Settings
+                </button>
+            </div>
+            
+            <div class="panel-section">
+                <h3><i class="fas fa-palette"></i> Branding & Appearance</h3>
+                <div class="kb-info">
+                    <strong>Customize Interface</strong>
+                    Adjust colors, logos, and styling to match your organization's branding.
+                </div>
+                <button class="btn btn-primary" onclick="openModal('brandingModal')">
+                    <i class="fas fa-paint-brush"></i> Customize Appearance
+                </button>
+            </div>
+
+            <div class="panel-section">
+                <h3><i class="fas fa-robot"></i> AI Model Configuration</h3>
+                <div class="kb-info">
+                    <strong>Advanced AI Settings</strong>
+                    Configure which AI model to use, temperature, and response parameters.
+                </div>
+                <button class="btn btn-primary" onclick="openModal('modelConfigModal')">
+                    <i class="fas fa-microchip"></i> Configure AI Model
+                </button>
+            </div>
+        </div>
+
+        <div class="demo-footer">
+            Myako AI Pre-Assessment - Interactive Demonstration • Simulated data for illustration
+        </div>
+    </div>
+
+    <!-- AI Configuration Modal -->
+    <div class="modal-overlay" id="aiConfigModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3><i class="fas fa-robot"></i> AI Evaluation Parameters</h3>
+                <button class="modal-close" onclick="closeModal('aiConfigModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Evaluation Strictness</label>
+                    <div class="slider-container">
+                        <input type="range" min="1" max="10" value="7" class="slider" id="strictnessSlider" oninput="updateSliderValue('strictnessSlider', 'strictnessValue')">
+                        <span class="slider-value" id="strictnessValue">7</span>
+                    </div>
+                    <small>How strictly the AI evaluates responses (1=Lenient, 10=Strict)</small>
+                </div>
+
+                <div class="form-group">
+                    <label>Feedback Detail Level</label>
+                    <div class="slider-container">
+                        <input type="range" min="1" max="10" value="8" class="slider" id="detailSlider" oninput="updateSliderValue('detailSlider', 'detailValue')">
+                        <span class="slider-value" id="detailValue">8</span>
+                    </div>
+                    <small>How detailed the AI feedback should be (1=Basic, 10=Comprehensive)</small>
+                </div>
+
+                <div class="form-group">
+                    <label>Question Difficulty</label>
+                    <select class="form-control" id="difficultySelect">
+                        <option value="beginner">Beginner</option>
+                        <option value="intermediate" selected>Intermediate</option>
+                        <option value="advanced">Advanced</option>
+                        <option value="adaptive">Adaptive (Based on responses)</option>
+                    </select>
+                </div>
+
+                <div class="checkbox-group">
+                    <input type="checkbox" id="enableHints" checked>
+                    <label for="enableHints">Enable hints for struggling learners</label>
+                </div>
+
+                <div class="checkbox-group">
+                    <input type="checkbox" id="enableFollowup" checked>
+                    <label for="enableFollowup">Enable follow-up questions for incorrect answers</label>
+                </div>
+
+                <div class="config-preview">
+                    // Current Configuration<br>
+                    {<br>
+                    &nbsp;&nbsp;"evaluation_strictness": <span id="previewStrictness">7</span>,<br>
+                    &nbsp;&nbsp;"feedback_detail": <span id="previewDetail">8</span>,<br>
+                    &nbsp;&nbsp;"difficulty": "<span id="previewDifficulty">intermediate</span>",<br>
+                    &nbsp;&nbsp;"enable_hints": <span id="previewHints">true</span>,<br>
+                    &nbsp;&nbsp;"enable_followup": <span id="previewFollowup">true</span><br>
+                    }
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('aiConfigModal')">Cancel</button>
+                <button class="btn btn-primary" onclick="saveAIConfig()">Save Configuration</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- xAPI Configuration Modal -->
+    <div class="modal-overlay" id="xapiConfigModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3><i class="fas fa-database"></i> xAPI/LRS Configuration</h3>
+                <button class="modal-close" onclick="closeModal('xapiConfigModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>LRS Endpoint URL</label>
+                    <input type="text" class="form-control" value="https://lrs.myako.online/data/xAPI" placeholder="https://your-lrs-endpoint.com/xapi">
+                </div>
+
+                <div class="form-group">
+                    <label>Authentication Key</label>
+                    <input type="password" class="form-control" value="••••••••••••••••" placeholder="Your authentication key">
+                </div>
+
+                <div class="form-group">
+                    <label>Authentication Secret</label>
+                    <input type="password" class="form-control" value="••••••••••••••••" placeholder="Your authentication secret">
+                </div>
+
+                <div class="checkbox-group">
+                    <input type="checkbox" id="enableXAPI" checked>
+                    <label for="enableXAPI">Enable xAPI tracking</label>
+                </div>
+
+                <div class="checkbox-group">
+                    <input type="checkbox" id="verboseLogging">
+                    <label for="verboseLogging">Enable verbose xAPI logging</label>
+                </div>
+
+                <div class="checkbox-group">
+                    <input type="checkbox" id="batchStatements" checked>
+                    <label for="batchStatements">Batch xAPI statements for performance</label>
+                </div>
+
+                <div class="config-preview">
+                    // xAPI Configuration<br>
+                    {<br>
+                    &nbsp;&nbsp;"endpoint": "https://lrs.myako.online/data/xAPI",<br>
+                    &nbsp;&nbsp;"auth_enabled": true,<br>
+                    &nbsp;&nbsp;"tracking_enabled": <span id="previewTracking">true</span>,<br>
+                    &nbsp;&nbsp;"verbose_logging": <span id="previewVerbose">false</span>,<br>
+                    &nbsp;&nbsp;"batch_mode": <span id="previewBatch">true</span><br>
+                    }
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('xapiConfigModal')">Cancel</button>
+                <button class="btn btn-primary" onclick="saveXAPIConfig()">Save Configuration</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Branding Modal -->
+    <div class="modal-overlay" id="brandingModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3><i class="fas fa-palette"></i> Branding & Appearance</h3>
+                <button class="modal-close" onclick="closeModal('brandingModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Primary Color</label>
+                    <input type="color" class="form-control" value="#2563eb" style="height: 45px;">
+                </div>
+
+                <div class="form-group">
+                    <label>Secondary Color</label>
+                    <input type="color" class="form-control" value="#1e40af" style="height: 45px;">
+                </div>
+
+                <div class="form-group">
+                    <label>Company Logo</label>
+                    <input type="file" class="form-control" accept="image/*">
+                    <small>Recommended: 200x60px PNG with transparent background</small>
+                </div>
+
+                <div class="form-group">
+                    <label>Chat Interface Theme</label>
+                    <select class="form-control">
+                        <option value="light">Light Theme</option>
+                        <option value="dark">Dark Theme</option>
+                        <option value="auto">Auto (System Preference)</option>
+                    </select>
+                </div>
+
+                <div class="checkbox-group">
+                    <input type="checkbox" id="showBranding" checked>
+                    <label for="showBranding">Show Myako branding in assessment</label>
+                </div>
+
+                <div class="checkbox-group">
+                    <input type="checkbox" id="customCSS">
+                    <label for="customCSS">Enable custom CSS</label>
+                </div>
+
+                <div class="config-preview">
+                    // Branding Settings<br>
+                    {<br>
+                    &nbsp;&nbsp;"primary_color": "#2563eb",<br>
+                    &nbsp;&nbsp;"secondary_color": "#1e40af",<br>
+                    &nbsp;&nbsp;"theme": "light",<br>
+                    &nbsp;&nbsp;"show_branding": true,<br>
+                    &nbsp;&nbsp;"custom_css": false<br>
+                    }
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('brandingModal')">Cancel</button>
+                <button class="btn btn-primary" onclick="saveBrandingConfig()">Save Configuration</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- AI Model Configuration Modal -->
+    <div class="modal-overlay" id="modelConfigModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3><i class="fas fa-microchip"></i> AI Model Configuration</h3>
+                <button class="modal-close" onclick="closeModal('modelConfigModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>AI Model</label>
+                    <select class="form-control" id="modelSelect">
+                        <option value="gpt-4">GPT-4 (Recommended)</option>
+                        <option value="gpt-3.5-turbo">GPT-3.5 Turbo (Faster)</option>
+                        <option value="claude-3">Claude 3 (Alternative)</option>
+                        <option value="llama-3">Llama 3 (Open Source)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Response Creativity (Temperature)</label>
+                    <div class="slider-container">
+                        <input type="range" min="0" max="20" value="7" class="slider" id="tempSlider" oninput="updateSliderValue('tempSlider', 'tempValue', 0.1)">
+                        <span class="slider-value" id="tempValue">0.7</span>
+                    </div>
+                    <small>How creative vs. deterministic the AI responses are (0=Deterministic, 2=Very Creative)</small>
+                </div>
+
+                <div class="form-group">
+                    <label>Maximum Response Length</label>
+                    <select class="form-control" id="maxLengthSelect">
+                        <option value="128">Short (128 tokens)</option>
+                        <option value="256" selected>Medium (256 tokens)</option>
+                        <option value="512">Long (512 tokens)</option>
+                        <option value="1024">Very Long (1024 tokens)</option>
+                    </select>
+                </div>
+
+                <div class="checkbox-group">
+                    <input type="checkbox" id="enableRAG" checked>
+                    <label for="enableRAG">Enable RAG (Retrieval-Augmented Generation)</label>
+                </div>
+
+                <div class="checkbox-group">
+                    <input type="checkbox" id="enableContext">
+                    <label for="enableContext">Maintain conversation context</label>
+                </div>
+
+                <div class="config-preview">
+                    // AI Model Configuration<br>
+                    {<br>
+                    &nbsp;&nbsp;"model": "gpt-4",<br>
+                    &nbsp;&nbsp;"temperature": <span id="previewTemp">0.7</span>,<br>
+                    &nbsp;&nbsp;"max_tokens": <span id="previewTokens">256</span>,<br>
+                    &nbsp;&nbsp;"rag_enabled": true,<br>
+                    &nbsp;&nbsp;"context_enabled": <span id="previewContext">false</span><br>
+                    }
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('modelConfigModal')">Cancel</button>
+                <button class="btn btn-primary" onclick="saveModelConfig()">Save Configuration</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Enhanced Knowledge Base configurations
+        const knowledgeBases = {
+            cybersecurite: {
+                name: "Cybersecurity Fundamentals",
+                description: "Contains 28 key concepts on information security, company policies and best practices. Updated: 06/15/2023",
+                questions: [
+                    {
+                        text: "What is a phishing attack and how can you identify it in a professional email?",
+                        concepts: ["Phishing", "Email Security", "Vigilance"],
+                        context: "phishing",
+                        sampleAnswers: {
+                            good: "A phishing attack is a type of social engineering where attackers impersonate legitimate entities to steal sensitive information. In a professional email, I'd look for suspicious sender addresses, urgent language requesting immediate action, generic greetings instead of personalized ones, spelling/grammar errors, and suspicious links or attachments.",
+                            average: "Phishing is when someone tries to trick you into giving personal information through email. I'd check if the email looks suspicious or has strange links.",
+                            poor: "I'm not sure, maybe when you get spam emails?",
+                            dontknow: "I don't know what phishing is or how to identify it in emails."
+                        }
+                    },
+                    {
+                        text: "Why is it important to regularly update your software and operating systems?",
+                        concepts: ["Security Updates", "Vulnerability Management"],
+                        context: "updates",
+                        sampleAnswers: {
+                            good: "Regular software updates are critical because they patch security vulnerabilities that attackers could exploit. Updates fix known bugs, address zero-day vulnerabilities, improve stability, and often add new security features. Without updates, systems become increasingly vulnerable to malware, ransomware, and unauthorized access.",
+                            average: "Updates fix security holes and bugs in the software. They help protect against viruses and hackers.",
+                            poor: "So your computer doesn't get slow or crash?",
+                            dontknow: "I don't know why updates are important for security."
+                        }
+                    },
+                    {
+                        text: "What are the characteristics of a strong password according to company security policy?",
+                        concepts: ["Password Security", "Security Policies"],
+                        context: "passwords",
+                        sampleAnswers: {
+                            good: "According to our security policy, strong passwords should be at least 12 characters long, include uppercase and lowercase letters, numbers, and special characters. They shouldn't contain dictionary words, personal information, or be reused across different systems. We're also required to change passwords every 90 days and use a password manager.",
+                            average: "A strong password should be long with letters, numbers, and symbols. Don't use easy-to-guess words or personal information.",
+                            poor: "Something hard to guess with different characters?",
+                            dontknow: "I'm not sure what the company policy says about passwords."
+                        }
+                    },
+                    {
+                        text: "What would you do if you received a suspicious email from a colleague requesting confidential information?",
+                        concepts: ["Incident Response", "Security Communication"],
+                        context: "incident",
+                        sampleAnswers: {
+                            good: "I would not respond to the email or click any links. I'd immediately contact the colleague through a verified channel (phone or in-person) to confirm they sent the request. If they didn't, I'd report the incident to the IT security team following our incident response procedure, and forward the suspicious email to the phishing reporting address.",
+                            average: "I would verify with the colleague through another method before sending anything. If it's suspicious, I'd report it to IT.",
+                            poor: "Maybe check if it looks real? I'm not sure what the procedure is.",
+                            dontknow: "I don't know what the proper procedure is for suspicious emails."
+                        }
+                    },
+                    {
+                        text: "Explain the difference between two-factor authentication and multi-factor authentication.",
+                        concepts: ["Authentication", "Access Control"],
+                        context: "authentication",
+                        sampleAnswers: {
+                            good: "Two-factor authentication (2FA) requires exactly two different types of authentication factors from these categories: something you know (password), something you have (phone), or something you are (biometrics). Multi-factor authentication (MFA) is broader and requires two or more factors. So all 2FA is MFA, but not all MFA is 2FA - MFA could require three or more factors.",
+                            average: "2FA uses two steps to verify identity, like password and phone code. MFA could use more than two methods.",
+                            poor: "They're both extra security steps beyond just a password.",
+                            dontknow: "I don't know the difference between 2FA and MFA."
+                        }
+                    }
+                ],
+                strengths: [
+                    "Solid understanding of basic security principles",
+                    "Ability to identify suspicious emails",
+                    "Knowledge of password policies"
+                ],
+                improvements: [
+                    "Software update practices need strengthening",
+                    "Incident response procedures to be deepened",
+                    "Advanced authentication concepts to be consolidated"
+                ]
+            },
+            firstaid: {
+                name: "First Aid at Work",
+                description: "Basic protocols for medical emergency situations in professional environments. Updated: 05/22/2023",
+                questions: [
+                    {
+                        text: "What are the main steps of the alert procedure in case of an accident at work?",
+                        concepts: ["Alert Procedure", "Emergency"],
+                        context: "firstaid",
+                        sampleAnswers: {
+                            good: "The main steps are: 1) Ensure your own safety first, 2) Check the victim's responsiveness and breathing, 3) Call for professional help (911/emergency services) and provide clear location details, 4) Alert the workplace first aid officer and supervisor, 5) Provide appropriate first aid until professional help arrives, 6) Document the incident according to company procedure.",
+                            average: "Check if the person is okay, call emergency services, and get help from coworkers.",
+                            poor: "I think you call for help and try to help the person?",
+                            dontknow: "I don't know the specific alert procedure for workplace accidents."
+                        }
+                    }
+                ],
+                strengths: [
+                    "Knowledge of basic emergency procedures",
+                    "Understanding of AED usage"
+                ],
+                improvements: [
+                    "CPR techniques need practice",
+                    "Stress management in emergency situations to develop"
+                ]
+            }
+        };
+
+        // State management
+        let currentState = 'idle';
+        let currentQuestionIndex = 0;
+        let currentKB = 'cybersecurite';
+        let score = 0;
+        let totalQuestions = 0;
+        let startTime;
+        let currentQuestionContext = '';
+
+        // DOM Elements
+        const kbSelector = document.getElementById('kbSelector');
+        const kbInfo = document.getElementById('kbInfo');
+        const chatMessages = document.getElementById('chatMessages');
+        const messageInput = document.getElementById('messageInput');
+        const sendButton = document.getElementById('sendBtn');
+        const xapiLog = document.getElementById('xapiLog');
+        const startBtn = document.getElementById('startBtn');
+        const progressContainer = document.getElementById('progressContainer');
+        const progressText = document.getElementById('progressText');
+        const progressFill = document.getElementById('progressFill');
+        const resultsPanel = document.getElementById('resultsPanel');
+        const finalScoreCircle = document.getElementById('finalScoreCircle');
+        const strengthsList = document.getElementById('strengthsList');
+        const improvementsList = document.getElementById('improvementsList');
+        const xapiScore = document.getElementById('xapiScore');
+        const xapiRaw = document.getElementById('xapiRaw');
+
+        // Modal management
+        function openModal(modalId) {
+            document.getElementById(modalId).classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        function updateSliderValue(sliderId, valueId, multiplier = 1) {
+            const slider = document.getElementById(sliderId);
+            const value = document.getElementById(valueId);
+            const displayValue = slider.value * multiplier;
+            value.textContent = multiplier === 1 ? slider.value : displayValue.toFixed(1);
+            
+            // Update preview in AI config modal
+            if (sliderId === 'strictnessSlider') {
+                document.getElementById('previewStrictness').textContent = slider.value;
+            } else if (sliderId === 'detailSlider') {
+                document.getElementById('previewDetail').textContent = slider.value;
+            } else if (sliderId === 'tempSlider') {
+                document.getElementById('previewTemp').textContent = displayValue.toFixed(1);
+            }
+        }
+
+        function saveAIConfig() {
+            // In a real app, this would save to backend
+            alert('AI configuration saved successfully!');
+            closeModal('aiConfigModal');
+        }
+
+        function saveXAPIConfig() {
+            alert('xAPI configuration saved successfully!');
+            closeModal('xapiConfigModal');
+        }
+
+        function saveBrandingConfig() {
+            alert('Branding configuration saved successfully!');
+            closeModal('brandingModal');
+        }
+
+        function saveModelConfig() {
+            alert('AI Model configuration saved successfully!');
+            closeModal('modelConfigModal');
+        }
+
+        // Tab management
+        function switchTab(tabName) {
+            // Hide all tab contents
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Remove active class from all nav links
+            document.querySelectorAll('.nav-links a').forEach(link => {
+                link.classList.remove('active');
+            });
+            
+            // Show selected tab and activate nav link
+            document.getElementById(`${tabName}-tab`).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        // Initialize
+        function init() {
+            kbSelector.addEventListener('change', updateKBInfo);
+            updateKBInfo();
+            logXAPI('Initialized', 'Session created - User: Demo_User_01');
+            
+            // Initialize modal preview values
+            updateSliderValue('strictnessSlider', 'strictnessValue');
+            updateSliderValue('detailSlider', 'detailValue');
+            updateSliderValue('tempSlider', 'tempValue', 0.1);
+        }
+
+        function updateKBInfo() {
+            currentKB = kbSelector.value;
+            const kb = knowledgeBases[currentKB];
+            kbInfo.innerHTML = `<strong>${kb.name}</strong> ${kb.description}`;
+        }
+
+        function loadKnowledgeBase() {
+            addMessage('System', `Knowledge base "<strong>${knowledgeBases[currentKB].name}</strong>" loaded successfully. Ready for assessment.`);
+            logXAPI('Loaded', `Knowledge Base - ${knowledgeBases[currentKB].name}`);
+            startBtn.disabled = false;
+            startBtn.innerHTML = '<i class="fas fa-rocket"></i> Start Assessment';
+        }
+
+        function startEvaluation() {
+            if (currentState !== 'idle') return;
+            
+            currentState = 'evaluating';
+            currentQuestionIndex = 0;
+            score = 0;
+            totalQuestions = knowledgeBases[currentKB].questions.length;
+            startTime = new Date();
+            
+            messageInput.disabled = false;
+            sendButton.disabled = false;
+            messageInput.focus();
+            startBtn.disabled = true;
+            startBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Assessment in Progress';
+            
+            progressContainer.style.display = 'block';
+            updateProgress();
+            
+            addMessage('System', `Assessment started! I'll ask you ${totalQuestions} questions. Please answer in detail for an accurate assessment.`);
+            logXAPI('Started', 'Assessment session started');
+            
+            setTimeout(() => askNextQuestion(), 1500);
+        }
+
+        function askNextQuestion() {
+            if (currentQuestionIndex >= knowledgeBases[currentKB].questions.length) {
+                completeEvaluation();
+                return;
+            }
+            
+            const question = knowledgeBases[currentKB].questions[currentQuestionIndex];
+            currentQuestionContext = question.context;
+            
+            setTimeout(() => {
+                const conceptsHTML = question.concepts.map(concept => 
+                    `<span class="concept-tag">${concept}</span>`
+                ).join('');
+                
+                addMessage('Bot', `
+                    <p>${question.text}</p>
+                    <div class="concept-tags">${conceptsHTML}</div>
+                    <div class="quick-replies">
+                        <div class="quick-reply" onclick="useQuickReply('${question.sampleAnswers.good.replace(/'/g, "\\'")}')">Sample Good Answer</div>
+                        <div class="quick-reply" onclick="useQuickReply('${question.sampleAnswers.average.replace(/'/g, "\\'")}')">Sample Average Answer</div>
+                        <div class="quick-reply" onclick="useQuickReply('${question.sampleAnswers.poor.replace(/'/g, "\\'")}')">Sample Poor Answer</div>
+                        <div class="quick-reply" onclick="useQuickReply('${question.sampleAnswers.dontknow.replace(/'/g, "\\'")}')">I Don't Know</div>
+                    </div>
+                `);
+                currentState = 'waiting_response';
+            }, 1000);
+        }
+
+        function useQuickReply(text) {
+            messageInput.value = text;
+            sendMessage();
+        }
+
+        function sendMessage() {
+            const message = messageInput.value.trim();
+            if (!message || currentState !== 'waiting_response') return;
+            
+            addMessage('User', message);
+            messageInput.value = '';
+            
+            currentState = 'evaluating';
+            simulateEvaluation(message);
+        }
+
+        function simulateEvaluation(response) {
+            const typingElement = addTypingIndicator();
+            
+            setTimeout(() => {
+                if (typingElement.parentNode) {
+                    typingElement.parentNode.removeChild(typingElement);
+                }
+                
+                const question = knowledgeBases[currentKB].questions[currentQuestionIndex];
+                let evaluation;
+                
+                // Smart evaluation based on response content and length
+                if (response.toLowerCase().includes("i don't know") || response.toLowerCase().includes("i'm not sure")) {
+                    evaluation = {
+                        score: 2,
+                        feedback: "It's okay to not know everything - that's what training is for! This is actually a good opportunity to learn. Phishing attacks are fraudulent attempts to obtain sensitive information by disguising as trustworthy entities. They often use urgent language and suspicious links in emails."
+                    };
+                } else if (response.length < 50) {
+                    evaluation = {
+                        score: 4,
+                        feedback: "Your answer is quite brief. While you've identified the basic concept, a more detailed response would help us better understand your knowledge level. For example, you could mention specific indicators like suspicious sender addresses, grammar errors, or urgent requests for action."
+                    };
+                } else if (response.length > 150 && (response.includes('example') || response.includes('specific') || response.includes('according to'))) {
+                    evaluation = {
+                        score: 9,
+                        feedback: "Excellent detailed response! You've demonstrated a strong understanding with specific examples and considerations. Your answer shows practical knowledge that would be valuable in real-world scenarios. The mention of verification procedures and reporting channels is particularly good."
+                    };
+                } else if (response.length > 80) {
+                    evaluation = {
+                        score: 7,
+                        feedback: "Good answer with solid understanding of the core concepts. You've covered the main points well. To improve further, you could include more specific examples or reference company policies where applicable."
+                    };
+                } else {
+                    evaluation = {
+                        score: 5,
+                        feedback: "Your answer shows basic understanding but could be more comprehensive. You've identified the main concept correctly. Consider expanding on practical applications or specific procedures related to this topic."
+                    };
+                }
+                
+                // Context-specific additional feedback
+                if (currentQuestionContext === 'phishing') {
+                    if (!response.toLowerCase().includes('link') && !response.toLowerCase().includes('attachment')) {
+                        evaluation.feedback += " You might also want to mention checking for suspicious links or attachments in emails.";
+                    }
+                } else if (currentQuestionContext === 'updates') {
+                    if (!response.toLowerCase().includes('vulnerability') && !response.toLowerCase().includes('patch')) {
+                        evaluation.feedback += " Remember that updates primarily address security vulnerabilities that could be exploited by attackers.";
+                    }
+                }
+                
+                score += evaluation.score;
+                
+                addMessage('Bot', `
+                    <div>Evaluation: <span class="score">${evaluation.score}/10</span></div>
+                    <div class="evaluation-feedback">${evaluation.feedback}</div>
+                `);
+                
+                logXAPI('Answered', `Question ${currentQuestionIndex + 1}: ${evaluation.score}/10 - Concepts: ${knowledgeBases[currentKB].questions[currentQuestionIndex].concepts.join(', ')}`);
+                
+                currentQuestionIndex++;
+                updateProgress();
+                askNextQuestion();
+            }, 2000);
+        }
+
+        function updateProgress() {
+            const progress = (currentQuestionIndex / totalQuestions) * 100;
+            progressFill.style.width = `${progress}%`;
+            progressText.textContent = `${currentQuestionIndex}/${totalQuestions}`;
+        }
+
+        function completeEvaluation() {
+            const finalScore = Math.round((score / (totalQuestions * 10)) * 100);
+            const duration = Math.round((new Date() - startTime) / 1000);
+            
+            setTimeout(() => {
+                addMessage('Bot', `
+                    <div>Assessment complete!</div>
+                    <div class="evaluation-feedback">
+                        <strong>Final score: ${finalScore}%</strong><br>
+                        ${getPerformanceMessage(finalScore)}
+                    </div>
+                `);
+                
+                logXAPI('Completed', `Assessment completed with score: ${finalScore}% - Duration: ${duration}s`);
+                currentState = 'completed';
+                
+                messageInput.disabled = true;
+                sendButton.disabled = true;
+                startBtn.disabled = true;
+                
+                showResults(finalScore);
+            }, 1000);
+        }
+
+        function getPerformanceMessage(score) {
+            if (score >= 90) return "Excellent mastery of the subject! The training will allow you to deepen your advanced knowledge.";
+            if (score >= 70) return "Good baseline level. The training will help you consolidate and complete your knowledge.";
+            if (score >= 50) return "Basic knowledge present. The training will be very beneficial to strengthen your skills.";
+            return "The training will cover the essential concepts you need. Participation encouraged!";
+        }
+
+        function showResults(finalScore) {
+            const kb = knowledgeBases[currentKB];
+            
+            // Update results panel
+            finalScoreCircle.textContent = `${finalScore}%`;
+            xapiScore.textContent = (finalScore / 100).toFixed(2);
+            xapiRaw.textContent = score;
+            
+            // Populate strengths and improvements
+            strengthsList.innerHTML = '';
+            kb.strengths.forEach(strength => {
+                const li = document.createElement('li');
+                li.textContent = strength;
+                strengthsList.appendChild(li);
+            });
+            
+            improvementsList.innerHTML = '';
+            kb.improvements.forEach(improvement => {
+                const li = document.createElement('li');
+                li.textContent = improvement;
+                improvementsList.appendChild(li);
+            });
+            
+            // Show results panel with animation
+            resultsPanel.style.display = 'block';
+            setTimeout(() => {
+                resultsPanel.classList.add('slide-up');
+            }, 100);
+        }
+
+        function resetChat() {
+            chatMessages.innerHTML = '';
+            addMessage('Bot', `
+                <p>Hello! I'm the Myako AI assistant. I'll ask you a few questions to assess your current knowledge.</p>
+                <p>This assessment will help us personalize your training experience. Please answer as completely as possible.</p>
+                <div class="concept-tags">
+                    <span class="concept-tag">Password Security</span>
+                    <span class="concept-tag">Threat Identification</span>
+                    <span class="concept-tag">Company Policies</span>
+                </div>
+                <div class="quick-replies" id="initialQuickReplies">
+                    <div class="quick-reply" onclick="useQuickReply('Got it, I\'m ready to start.')">Got it, I'm ready to start.</div>
+                    <div class="quick-reply" onclick="useQuickReply('Can you tell me more about how this works?')">How does this work?</div>
+                    <div class="quick-reply" onclick="useQuickReply('What topics will be covered?')">What topics will be covered?</div>
+                </div>
+            `);
+            currentState = 'idle';
+            messageInput.disabled = true;
+            sendButton.disabled = true;
+            startBtn.disabled = false;
+            startBtn.innerHTML = '<i class="fas fa-rocket"></i> Start Assessment';
+            progressContainer.style.display = 'none';
+            progressFill.style.width = '0%';
+            resultsPanel.style.display = 'none';
+            logXAPI('Reset', 'Assessment reset by user');
+        }
+
+        // UI Helper functions
+        function addMessage(sender, message) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${sender.toLowerCase()}-message`;
+            
+            const bubble = document.createElement('div');
+            bubble.className = 'message-bubble';
+            bubble.innerHTML = message;
+            
+            messageDiv.appendChild(bubble);
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+            
+            return messageDiv;
+        }
+
+        function addTypingIndicator() {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'message bot-message';
+            
+            const bubble = document.createElement('div');
+            bubble.className = 'typing-indicator';
+            bubble.innerHTML = `
+                <div class="typing-dots">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            `;
+            
+            messageDiv.appendChild(bubble);
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+            
+            return messageDiv;
+        }
+
+        function logXAPI(verb, result) {
+            const timestamp = new Date().toLocaleTimeString();
+            const logEntry = document.createElement('div');
+            logEntry.innerHTML = `
+                <div class="timestamp">[${timestamp}]</div> 
+                <span class="verb">${verb}</span>: ${result}
+            `;
+            xapiLog.appendChild(logEntry);
+            xapiLog.scrollTop = xapiLog.scrollHeight;
+        }
+
+        // Event listener for Enter key
+        messageInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+
+        // Close modal when clicking outside
+        window.addEventListener('click', function(e) {
+            if (e.target.classList.contains('modal-overlay')) {
+                e.target.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
+        });
+
+        // Initialize the prototype
+        init();
+    </script>
+</body>
+</html>
